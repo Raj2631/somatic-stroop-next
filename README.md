@@ -6,29 +6,32 @@ This is a modern, fullstack version of the Somatic Stroop Test built with Next.j
 - Node.js v18.17 or later
 - npm (standard with Node.js)
 
-## Quick Start (Local Setup)
+## Deployment to Cloud (Recommended)
 
-1.  **Install Dependencies**:
-    ```bash
-    npm install
-    ```
+This project is optimized for deployment on Vercel or Netlify with **Supabase (PostgreSQL)** for persistent storage.
 
-2.  **Setup Database**:
-    ```bash
-    npx prisma migrate dev --name init
-    ```
+1.  **Push to GitHub**: Push your local code to a GitHub repository.
+2.  **Setup Supabase**:
+    - Create a new project at [supabase.com](https://supabase.com).
+    - Go to **Project Settings** > **Database**.
+    - Copy the **Connection URI** (use the Transaction mode on port 6543 for serverless).
+3.  **Deploy App**: 
+    - Connect your GitHub repo to Vercel/Netlify.
+    - Set the `DATABASE_URL` environment variable to your Supabase connection string.
+4.  **Automatic Migrations**: The project automatically runs `prisma generate` and `prisma migrate deploy` during the build process.
 
-3.  **Start the Server**:
-    ```bash
-    npm run dev
-    ```
-    Open `http://localhost:3000` in your browser.
+## Local Deployment (Clinical Use)
+To keep data on your own hardware with zero cost:
+1.  **Build**: `npm run build`
+2.  **Start Production**: `npm start`
+3.  **Access**: Open `http://<YOUR-IP>:3000` on any tablet on the same Wi-Fi.
 
-## Deployment to Vercel (Recommended)
-
-1.  Push the project to a GitHub repository.
-2.  Connect the repository to **Vercel**.
-3.  **Important**: Since this version uses SQLite, the database will be reset on every deployment. For production persistence, avoid Vercel's serverless functions or connect to an external PostgreSQL database by changing the `datasource` in `prisma/schema.prisma`.
+### 3. Quick Start (Development)
+```bash
+npm install
+npx prisma generate
+npm run dev
+```
 
 ## Deployment to a Local Server/Laptop (Clinical Setting)
 
