@@ -33,25 +33,25 @@ export function Instructions({ language, onStart }: InstructionsProps) {
               className="px-4 py-2 rounded-lg text-[10px] font-bold tracking-widest uppercase border shadow-sm"
               style={{ backgroundColor: COLOR_BG_HEX.red, color: COLOR_HEX.red, borderColor: `${COLOR_HEX.red}33` }}
             >
-              RED
+              Red
             </span>
             <span 
               className="px-4 py-2 rounded-lg text-[10px] font-bold tracking-widest uppercase border shadow-sm"
               style={{ backgroundColor: COLOR_BG_HEX.blue, color: COLOR_HEX.blue, borderColor: `${COLOR_HEX.blue}33` }}
             >
-              BLUE
+              Blue
             </span>
             <span 
               className="px-4 py-2 rounded-lg text-[10px] font-bold tracking-widest uppercase border shadow-sm"
               style={{ backgroundColor: COLOR_BG_HEX.green, color: COLOR_HEX.green, borderColor: `${COLOR_HEX.green}33` }}
             >
-              GREEN
+              Green
             </span>
             <span 
               className="px-4 py-2 rounded-lg text-[10px] font-bold tracking-widest uppercase border shadow-sm"
               style={{ backgroundColor: COLOR_BG_HEX.yellow, color: COLOR_HEX.yellow, borderColor: `${COLOR_HEX.yellow}33` }}
-            >
-              YELLOW
+            > 
+              Yellow
             </span>
           </div>
 

@@ -22,7 +22,7 @@ export interface Trial {
 export interface TrialResult extends Trial {
   trial: number;
   phase: 'practice' | 'test';
-  response: ColorType | 'timeout';
+  response: ColorType;
   correct: boolean;
   rt_ms: number;
 }

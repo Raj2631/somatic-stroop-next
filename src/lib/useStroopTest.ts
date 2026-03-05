@@ -57,7 +57,7 @@ export function useStroopTest({ language, onComplete, phase, count }: UseStroopT
 
   const calculateStats = (allResults: TrialResult[]): SessionStats => {
     // Filter for correct responses only for RT calculation
-    const correctResults = allResults.filter(r => r.correct && r.response !== 'timeout');
+    const correctResults = allResults.filter(r => r.correct);
     
     const getAvgRT = (type: TrialType) => {
       const rs = correctResults.filter(r => r.type === type);
@@ -94,16 +94,12 @@ export function useStroopTest({ language, onComplete, phase, count }: UseStroopT
     setShowFixation(true);
     setStartTime(null);
 
-    // End of fixation -> start of stimulus
-    setTimeout(() => {
+    // End of fixation -> show stimulus; no auto-advance, user responds at their own pace
+    timeoutRef.current = setTimeout(() => {
       setShowFixation(false);
       setShowStimulus(true);
       setCanRespond(true);
       setStartTime(performance.now());
-
-      timeoutRef.current = setTimeout(() => {
-        handleResponse('timeout');
-      }, 3000);
     }, 800); // 800ms fixation
   }, [currentIndex, trials.length]);
 
@@ -117,12 +113,11 @@ export function useStroopTest({ language, onComplete, phase, count }: UseStroopT
     };
   }, [currentIndex, trials.length, startTrial]);
 
-  const handleResponse = (response: ColorType | 'timeout') => {
-    if (!canRespond && response !== 'timeout') return;
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  const handleResponse = (response: ColorType) => {
+    if (!canRespond) return;
 
     const now = performance.now();
-    const rt = (response === 'timeout' || startTime === null) ? 3000 : now - startTime;
+    const rt = startTime === null ? 0 : now - startTime;
     
     const current = trials[currentIndex];
     if (!current) return;
@@ -145,7 +140,7 @@ export function useStroopTest({ language, onComplete, phase, count }: UseStroopT
     if (currentIndex + 1 >= trials.length) {
       onComplete(newResults, calculateStats(newResults));
     } else {
-      // Use a short delay before next trial fixation for better UX
+      // Short delay before next trial fixation
       setTimeout(() => {
         setCurrentIndex(prev => prev + 1);
       }, 300);
