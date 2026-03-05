@@ -16,6 +16,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Somatic Stroop Test — Clinical Edition",
   description: "A clinical Neuropsychology assessment tool for attentional bias.",
+  themeColor: "#1A1814",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
+  appleWebApp: {
+    title: "Somatic Stroop",
+    statusBarStyle: "default",
+    capable: true,
+  },
 };
 
 export default function RootLayout({
