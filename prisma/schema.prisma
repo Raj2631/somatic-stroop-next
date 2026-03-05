@@ -1,0 +1,41 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+  output          = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Session {
+  id             String   @id @default(cuid())
+  timestamp      DateTime @default(now())
+  patientId      String
+  age            Int
+  gender         String
+  education      String
+  diagnosis      String?
+  language       String
+  interference   Int
+  rt_somatic     Int
+  rt_neutral     Int
+  rt_color       Int
+  accuracy       Float
+  totalTrials    Int
+  trials         Trial[]
+}
+
+model Trial {
+  id        String  @id @default(cuid())
+  sessionId String
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  trialNum  Int
+  phase     String
+  word      String
+  color     String
+  type      String
+  response  String
+  correct   Boolean
+  rt_ms     Int
+}
