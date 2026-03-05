@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Somatic Stroop Test — Deployment Guide
 
-## Getting Started
+This is a modern, fullstack version of the Somatic Stroop Test built with Next.js, Tailwind CSS, and Prisma.
 
-First, run the development server:
+## Prerequisites
+- Node.js v18.17 or later
+- npm (standard with Node.js)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Quick Start (Local Setup)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1.  **Install Dependencies**:
+    ```bash
+    npm install
+    ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2.  **Setup Database**:
+    ```bash
+    npx prisma migrate dev --name init
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3.  **Start the Server**:
+    ```bash
+    npm run dev
+    ```
+    Open `http://localhost:3000` in your browser.
 
-## Learn More
+## Deployment to Vercel (Recommended)
 
-To learn more about Next.js, take a look at the following resources:
+1.  Push the project to a GitHub repository.
+2.  Connect the repository to **Vercel**.
+3.  **Important**: Since this version uses SQLite, the database will be reset on every deployment. For production persistence, avoid Vercel's serverless functions or connect to an external PostgreSQL database by changing the `datasource` in `prisma/schema.prisma`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment to a Local Server/Laptop (Clinical Setting)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If you want to run this on a local server (e.g., in a clinic) so tablets on the same Wi-Fi can access it:
 
-## Deploy on Vercel
+1.  **Build the Project**:
+    ```bash
+    npm run build
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  **Start Production Server**:
+    ```bash
+    npm start
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3.  **Find your IP Address**:
+    On Mac/Linux: `ifconfig`
+    On Windows: `ipconfig`
+
+4.  **Access on Tablets**:
+    Open `http://<YOUR-IP>:3000` on the tablet browsers.
+
+## Data Storage
+- **Database**: All session data is stored in `prisma/dev.db` (SQLite).
+- **Exports**: Data can be exported as CSV directly from the Admin Dashboard in the app.
+
+---
+
+## Task Parameters
+- **Fixation**: 600ms
+- **Stimulus Max Duration**: 3000ms
+- **Practice Block**: 10 trials
+- **Test Block**: 60 trials
+- **Somatic Interference Score**: Mean RT (Somatic) - Mean RT (Neutral)
