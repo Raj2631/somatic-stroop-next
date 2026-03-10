@@ -96,7 +96,7 @@ export default function Home() {
         <StroopTest
           language={patient.lang}
           phase="practice"
-          count={2}
+          count={5}
           onComplete={handlePracticeComplete}
         />
       )}
@@ -105,7 +105,7 @@ export default function Home() {
         <StroopTest
           language={patient.lang}
           phase="test"
-          count={5}
+          count={40}
           onComplete={handleTestComplete}
         />
       )}
