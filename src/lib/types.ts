@@ -6,6 +6,9 @@ export interface Patient {
   gender: string;
   education: string;
   diagnosis?: string;
+  socioEconomicStatus: 'upper' | 'middle' | 'lower';
+  phqScore: number;
+  group: 'A' | 'B';
   lang: Language;
   timestamp: string;
 }

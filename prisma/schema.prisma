@@ -16,6 +16,9 @@ model Session {
   education      String
   diagnosis      String?
   language       String
+  socioEconomicStatus String
+  phqScore           Int
+  groupName          String
   interference   Int
   rt_somatic     Int
   rt_neutral     Int

@@ -1,13 +1,19 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Patient, Language } from '@/lib/types';
-import { LANGUAGES, TRANSLATIONS, COLOR_HEX } from '@/lib/constants';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
+import { useState } from "react";
+import { Patient, Language } from "@/lib/types";
+import { LANGUAGES, TRANSLATIONS, COLOR_HEX } from "@/lib/constants";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 interface RegistrationFormProps {
   onStart: (patient: Patient) => void;
@@ -15,18 +21,21 @@ interface RegistrationFormProps {
 }
 
 export function RegistrationForm({ onStart, onAdmin }: RegistrationFormProps) {
-  const [lang, setLang] = useState<Language>('en');
-  const [pid, setPid] = useState('');
-  const [age, setAge] = useState('');
-  const [gender, setGender] = useState('');
-  const [edu, setEdu] = useState('');
-  const [diag, setDiag] = useState('');
+  const [lang, setLang] = useState<Language>("en");
+  const [pid, setPid] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [edu, setEdu] = useState("");
+  const [diag, setDiag] = useState("");
+  const [ses, setSes] = useState("");
+  const [phq, setPhq] = useState("");
+  const [group, setGroup] = useState("");
 
   const t = TRANSLATIONS[lang];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!pid || !age || !gender || !edu) return;
+    if (!pid || !age || !gender || !edu || !ses || !phq || !group) return;
 
     onStart({
       id: pid,
@@ -34,6 +43,9 @@ export function RegistrationForm({ onStart, onAdmin }: RegistrationFormProps) {
       gender,
       education: edu,
       diagnosis: diag,
+      socioEconomicStatus: ses as "upper" | "middle" | "lower",
+      phqScore: parseInt(phq, 10),
+      group: group as "A" | "B",
       lang,
       timestamp: new Date().toISOString(),
     });
@@ -46,11 +58,17 @@ export function RegistrationForm({ onStart, onAdmin }: RegistrationFormProps) {
           Clinical Neuropsychology
         </p>
         <h1 className="text-4xl md:text-5xl font-serif leading-tight">
-          Somatic<br />
-          <em className="text-3xl md:text-4xl" style={{ color: COLOR_HEX.blue }}>Stroop Test</em>
+          Somatic{" "}
+          <em
+            className="text-3xl md:text-4xl"
+            style={{ color: COLOR_HEX.blue }}
+          >
+            Stroop Test
+          </em>
         </h1>
         <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-          A tablet-based attentional bias assessment for outpatient clinical settings.
+          A tablet-based attentional bias assessment for outpatient clinical
+          settings.
         </p>
       </div>
 
@@ -60,10 +78,12 @@ export function RegistrationForm({ onStart, onAdmin }: RegistrationFormProps) {
             {LANGUAGES.map((l) => (
               <Button
                 key={l.value}
-                variant={lang === l.value ? 'default' : 'outline'}
+                variant={lang === l.value ? "default" : "outline"}
                 size="sm"
                 className={`rounded-full h-8 px-4 text-xs transition-all ${
-                  lang === l.value ? 'bg-[#1A1814] text-white shadow-md scale-105' : 'hover:border-[#1A1814]'
+                  lang === l.value
+                    ? "bg-[#1A1814] text-white shadow-md scale-105"
+                    : "hover:border-[#1A1814]"
                 }`}
                 onClick={() => setLang(l.value)}
               >
@@ -75,11 +95,11 @@ export function RegistrationForm({ onStart, onAdmin }: RegistrationFormProps) {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-                {t['lbl-pid']}
+                {t["lbl-pid"]}
               </Label>
-              <Input 
-                placeholder="e.g. OPD-2024-001" 
-                value={pid} 
+              <Input
+                placeholder={t["lbl-pid"]}
+                value={pid}
                 onChange={(e) => setPid(e.target.value)}
                 required
                 className="hover:border-[#1A1814] focus:ring-[#1A1814]"
@@ -89,14 +109,14 @@ export function RegistrationForm({ onStart, onAdmin }: RegistrationFormProps) {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-                  {t['lbl-age']}
+                  {t["lbl-age"]}
                 </Label>
-                <Input 
-                  type="number" 
-                  min="5" 
-                  max="100" 
-                  placeholder="e.g. 42" 
-                  value={age} 
+                <Input
+                  type="number"
+                  min="5"
+                  max="100"
+                  placeholder="e.g. 42"
+                  value={age}
                   onChange={(e) => setAge(e.target.value)}
                   required
                   className="hover:border-[#1A1814]"
@@ -104,7 +124,7 @@ export function RegistrationForm({ onStart, onAdmin }: RegistrationFormProps) {
               </div>
               <div className="space-y-2">
                 <Label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-                   {t['lbl-gender']}
+                  {t["lbl-gender"]}
                 </Label>
                 <Select value={gender} onValueChange={setGender} required>
                   <SelectTrigger className="hover:border-[#1A1814]">
@@ -121,7 +141,7 @@ export function RegistrationForm({ onStart, onAdmin }: RegistrationFormProps) {
 
             <div className="space-y-2">
               <Label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-                {t['lbl-edu']}
+                {t["lbl-edu"]}
               </Label>
               <Select value={edu} onValueChange={setEdu} required>
                 <SelectTrigger className="hover:border-[#1A1814]">
@@ -131,7 +151,9 @@ export function RegistrationForm({ onStart, onAdmin }: RegistrationFormProps) {
                   <SelectItem value="illiterate">Illiterate</SelectItem>
                   <SelectItem value="primary">Primary</SelectItem>
                   <SelectItem value="secondary">Secondary</SelectItem>
-                  <SelectItem value="higher_secondary">Higher Secondary</SelectItem>
+                  <SelectItem value="higher_secondary">
+                    Higher Secondary
+                  </SelectItem>
                   <SelectItem value="graduate">Graduate</SelectItem>
                   <SelectItem value="postgraduate">Postgraduate</SelectItem>
                 </SelectContent>
@@ -140,24 +162,79 @@ export function RegistrationForm({ onStart, onAdmin }: RegistrationFormProps) {
 
             <div className="space-y-2">
               <Label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-                {t['lbl-diag']}
+                {t["lbl-ses"]}
               </Label>
-              <Input 
-                placeholder="e.g. Functional somatic symptoms" 
-                value={diag} 
+              <Select value={ses} onValueChange={setSes} required>
+                <SelectTrigger className="hover:border-[#1A1814]">
+                  <SelectValue placeholder="— Select —" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="upper">Upper</SelectItem>
+                  <SelectItem value="middle">Middle</SelectItem>
+                  <SelectItem value="lower">Lower</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+                  {t["lbl-phq"]}
+                </Label>
+                <Input
+                  type="number"
+                  min="0"
+                  max="27"
+                  placeholder="e.g. 12"
+                  value={phq}
+                  onChange={(e) => setPhq(e.target.value)}
+                  required
+                  className="hover:border-[#1A1814]"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+                  {t["lbl-group"]}
+                </Label>
+                <Select value={group} onValueChange={setGroup} required>
+                  <SelectTrigger className="hover:border-[#1A1814]">
+                    <SelectValue placeholder="— Select —" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="A">A</SelectItem>
+                    <SelectItem value="B">B</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+                {t["lbl-diag"]}
+              </Label>
+              <Input
+                placeholder="e.g. Functional somatic symptoms"
+                value={diag}
                 onChange={(e) => setDiag(e.target.value)}
                 className="hover:border-[#1A1814]"
               />
             </div>
 
-            <Button type="submit" className="w-full h-12 text-sm font-semibold tracking-wide bg-[#1A1814] hover:bg-black shadow-lg hover:shadow-xl transition-all active:scale-[0.98]">
-              {t['btn-start']}
+            <Button
+              type="submit"
+              className="w-full h-12 text-sm font-semibold tracking-wide bg-[#1A1814] hover:bg-black shadow-lg hover:shadow-xl transition-all active:scale-[0.98]"
+            >
+              {t["btn-start"]}
             </Button>
           </form>
         </CardContent>
       </Card>
 
-      <Button variant="ghost" className="text-xs text-muted-foreground hover:bg-transparent hover:text-[#1A1814] transition-colors" onClick={onAdmin}>
+      <Button
+        variant="ghost"
+        className="text-xs text-muted-foreground hover:bg-transparent hover:text-[#1A1814] transition-colors"
+        onClick={onAdmin}
+      >
         🔒 Admin / View Data
       </Button>
     </div>

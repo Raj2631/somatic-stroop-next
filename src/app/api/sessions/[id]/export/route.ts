@@ -38,12 +38,15 @@ export async function GET(
     const content = `=== SUMMARY ===
 session_id,${session.id}
 timestamp,${session.timestamp.toISOString()}
-patient_id,${session.patientId}
+patient_name,${session.patientId}
 age,${session.age}
 gender,${session.gender}
 education,${session.education}
 diagnosis,${session.diagnosis || ''}
 language,${session.language}
+ses,${session.socioEconomicStatus}
+phq_score,${session.phqScore}
+group,${session.groupName}
 interference_ms,${session.interference}
 rt_somatic_ms,${session.rt_somatic}
 rt_neutral_ms,${session.rt_neutral}

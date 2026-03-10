@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -16,13 +16,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Somatic Stroop Test — Clinical Edition",
   description: "A clinical Neuropsychology assessment tool for attentional bias.",
-  themeColor: "#1A1814",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   appleWebApp: {
     title: "Somatic Stroop",
     statusBarStyle: "default",
     capable: true,
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#1A1814",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
